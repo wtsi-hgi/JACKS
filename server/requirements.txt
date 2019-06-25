@@ -1,5 +1,16 @@
+gevent
+eventlet
+flask-socketio
+flower
 flask
 jinja2
 wtforms
 celery
 redis
+numpy
+scipy
+matplotlib
+pandas
+sklearn
+biopython
+mpld3

@@ -29,7 +29,7 @@ $(document).ready(function(){
     // var socket = io.connect('http://' + document.domain + ':' + location.port);
     var socket = io.connect() 
     socket.on('run jack event 2', function(msg) {
-        $('#log').append('<p>message: ' + msg.data + '</p>');
+        $('#log').append('<p>app.js ready function: ' + msg.data + '</p>');
         socket.emit('event', {data: 'log appended from app.js doc ready'});
         console.log('log1');
     });

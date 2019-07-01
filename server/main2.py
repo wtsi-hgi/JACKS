@@ -38,6 +38,7 @@ celery.conf.update(app.config)
 
 socketio = SocketIO(logger=True, engineio_logger=True, async_mode='eventlet') # gn5
 socketio.init_app(app, message_queue=app.config[CELERY_BROKER_URL])
+print('here')
 
 YUSAV1_0 = 'yusav1.0'
 # YUSAV1_1 = 'yusav1.1'
@@ -132,7 +133,6 @@ def start_analysis():
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             f.save(file_path)
         try:
-            socketio.emit('jack started event', {'data': 'main route'})
             run_jacks_async(countfile=raw_count_file, replicatefile=replicate_map_file,
                                 guidemappingfile=grna_gene_map_file,
                                 rep_hdr=header_replicates, sample_hdr=header_sample, common_ctrl_sample=common_ctrl_sample,

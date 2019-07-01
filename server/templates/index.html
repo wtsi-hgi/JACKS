@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %}JACKSs
+{% block title %}JACKS
 {% endblock %}
 {% block content %}
 
 <script type="text/javascript" charset="utf-8">
-    socket.on('run jack event event', function(message) {
+    socket.on('event', function(message) {
         alert('The server has a message for you: ' + message);
     })
 </script>
-
+<div id="log">here</div>
     <div class="container main-block">
         <!--<img src="{{ url_for('static', filename='forecast_3.png') }}" class="logo" alt="Forecast">-->
         <div class="row">

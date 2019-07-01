@@ -22,11 +22,11 @@ create env
 `pip install -r ./server/requirements.txt`
 
 ```
-cd /Users/gn5/Documents/Flask
+cd /Users/gn5/Documents/JACKS
 . venv/bin/activate
 export FLASK_APP=main2.py
 export FLASK_ENV=development
-export PYTHONPATH=/Users/gn5/Documents/Flask:/Users/gn5/Documents/Flask/server:/Users/gn5/Documents/Flask/jacks
+export PYTHONPATH=/Users/gn5/Documents/JACKS:/Users/gn5/Documents/JACKS/server:/Users/gn5/Documents/JACKS/jacks
 redis-server
 celery -A main2.celery worker --loglevel=DEBUG -E
 celery -A main2.celery flower --loglevel=DEBUG -E

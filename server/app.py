@@ -9,7 +9,7 @@ import uuid
 import wtforms
 from celery import Celery
 
-from flask_socketio import SocketIO, emit # gn5 # must run with python run server/main2.py, not flask run
+from flask_socketio import SocketIO, emit
 from werkzeug.utils import secure_filename
 from wtforms.validators import DataRequired
 
@@ -36,7 +36,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 celery = Celery(app.name, broker=app.config[CELERY_BROKER_URL], backend=app.config[CELERY_RESULT_BACKEND])
 celery.conf.update(app.config)
 
-socketio = SocketIO(logger=True, engineio_logger=True, async_mode='eventlet') # gn5
+socketio = SocketIO(logger=True, engineio_logger=True, async_mode='eventlet')
 socketio.init_app(app, message_queue=app.config[CELERY_BROKER_URL])
 
 YUSAV1_0 = 'yusav1.0'
@@ -168,8 +168,8 @@ def plot_gene_heatmap(analysis_id, gene):
     if os.path.isfile(picklefile):
         image_path = os.path.join("results", analysis_id) + "/" + gene + ".png"
         full_image_path = os.path.join(os.path.dirname(__file__), "static", image_path)
-        #if not os.path.exists(full_image_path):
-            # gn5
+        if not os.path.exists(full_image_path):
+            pass
         plot_heatmap(picklefile, gene, full_image_path)
         return render_template(template, gene=gene, image_path=url_for('static', filename=image_path))
     else:
@@ -200,7 +200,4 @@ def test_message(message):
     #emit('results_finished_emit', {'data': 'results_done'})
 
 if __name__ == '__main__':
-    socketio.run(app, host="0.0.0.0", log_output=True) # gn5
-    #app.run(host='0.0.0.0', debug=True, port=80)
-    #app.run(host='0.0.0.0', debug=True, port=8005)
-    #app.run()
+    socketio.run(app, host="0.0.0.0", log_output=True)

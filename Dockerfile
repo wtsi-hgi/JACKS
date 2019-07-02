@@ -1,20 +1,15 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.6
+FROM python:3.6
 
 COPY reference_grna_efficacies /app/reference_grna_efficacies
-COPY jacks /app/jacks
+COPY jacks                     /app/jacks
+COPY server                    /app/server
 
-RUN pip install --upgrade pip
-RUN cd /app/jacks && pip install .
+RUN pip install --upgrade pip setuptools wheel \
+ && pip install /app/jacks \
+                -r /app/server/requirements.txt
 
-COPY server /app/server
-RUN pip install -r /app/server/requirements.txt
+EXPOSE 5000
 
-ENV LISTEN_PORT 8005
-ENV PYTHONPATH="/app/jacks:/app/server"
-ENV FLASK_DEBUG 1
-ENV UWSGI_INI /app/server/uwsgi.ini
-ENV STATIC_PATH /app/server/static
-ENV STATIC_URL /JACKS/static
-WORKDIR /app/server
-
-EXPOSE 8005
+ENV PYTHONPATH="/app:/app/server:/app/jacks"
+WORKDIR /app
+CMD python server/app.py

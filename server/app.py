@@ -200,7 +200,7 @@ def test_message(message):
     #emit('results_finished_emit', {'data': 'results_done'})
 
 if __name__ == '__main__':
-    socketio.run(app, log_output=True) # gn5
+    socketio.run(app, host="0.0.0.0", log_output=True) # gn5
     #app.run(host='0.0.0.0', debug=True, port=80)
     #app.run(host='0.0.0.0', debug=True, port=8005)
     #app.run()

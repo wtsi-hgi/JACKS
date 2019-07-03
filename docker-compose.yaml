@@ -21,24 +21,25 @@ services:
       CELERY_BROKER_URL: "redis://redis:6379/0"
       CELERY_RESULT_BACKEND: "redis://redis:6379/0"
 
-  # FIXME? How does Celery talk to the different container??
   celery-worker:
     build:
       context: .
       dockerfile: Dockerfile.celery
-    command: celery worker -A app.celery -E --loglevel=DEBUG
+    command: celery worker -b "redis://redis:6379/0" -El debug
     depends_on:
+    - redis
     - jacks
     networks: [app]
 
-  # FIXME? How does Celery talk to the different container??
   celery-flower:
     build:
       context: .
       dockerfile: Dockerfile.celery
-    command: celery flower -A app.celery -E --loglevel=DEBUG
+    command: celery flower -b "redis://redis:6379/0" -El debug --address=0.0.0.0
     depends_on:
-    - jacks
+    - celery-worker
+    ports:
+    - "5555:5555"
     networks: [app]
 
 networks:

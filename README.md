@@ -1,38 +1,45 @@
+# JACKS
+
+## Usage
+
+To start the service, run:
+
+    docker-compose up --build
+
+You will only need to issue the `--build` argument on the first run;
+subsequent runs (against the same Docker daemon) may omit this. To run
+in detached mode, you can add the `-d` argument.
+
+Once the service has started, you can access the web server on port
+`:5000`. A Celery Flower instance is also available on port `:5555`, to
+inspect the worker queue.
+
+**Note** You may need to change the network subnet in
+[`docker-compose.yaml`](docker-compose.yaml) to avoid networking
+conflicts on your host.
+
+## Organisation
+
 In the subdirectories here you will find:
 
-## jacks:  
+### `jacks`
 
-The JACKS python package (please see jacks/README.txt for usage instructions)
+The JACKS Python package (please see [`jacks/README.md`](jacks/README.md)
+for usage instructions).
 
+### `server`
 
-## 2018_paper_materials: 
+A web-based service for JACKS.
 
-Scripts and README files with location of results and data for the JACKS 2018 paper.
+### `2018_paper_materials`
 
-## reference_grna_efficacies:
+Scripts and [README](2018_paper_materials/README.txt) files with
+location of results and data for the JACKS 2018 paper.
 
-Trained values for JACKS's gRNA efficacies for the Avana, GeCKOv2, Yusa 1.0, TKOv1 and Whiteahead
-libraries as generated for the 2018 JACKS paper. These can be used with 
-run_JACKS.py to evaluate screens on these libraries without re-running
-the full analysis.
+### `reference_grna_efficacies`
 
-## run app locally:
-create env
-`python3 -m venv venv`
-`pip install -r ./server/requirements.txt`
-
-```
-cd /Users/gn5/Documents/Flask
-. venv/bin/activate
-export FLASK_APP=main2.py
-export FLASK_ENV=development
-export PYTHONPATH=/Users/gn5/Documents/Flask:/Users/gn5/Documents/Flask/server:/Users/gn5/Documents/Flask/jacks
-redis-server
-celery -A main2.celery worker --loglevel=DEBUG -E
-celery -A main2.celery flower --loglevel=DEBUG -E
-python server/main2.py
-```
-
-`flask run` doesn't work with socketIO
-http://127.0.0.1:5000/
-http://127.0.0.1:5555/
+Trained values for JACKS's gRNA efficacies for the Avana, GeCKOv2, Yusa
+1.0, TKOv1 and Whiteahead libraries as generated for the 2018 JACKS
+paper. These can be used with [`run_JACKS.py`](jacks/run_JACKS.py) to
+evaluate screens on these libraries without re-running the full
+analysis.

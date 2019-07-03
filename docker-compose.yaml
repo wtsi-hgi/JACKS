@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    restart: always
+    ports:
+    - "6379:6379"
+    networks: [app]
+
+  jacks:
+    build:
+       context: .
+       dockerfile: Dockerfile.JACKS
+    depends_on:
+    - redis
+    ports:
+    - "5000:5000"
+    networks: [app]
+    environment:
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+
+  # FIXME? How does Celery talk to the different container??
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    command: celery worker -A app.celery -E --loglevel=DEBUG
+    depends_on:
+    - jacks
+    networks: [app]
+
+  # FIXME? How does Celery talk to the different container??
+  celery-flower:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    command: celery flower -A app.celery -E --loglevel=DEBUG
+    depends_on:
+    - jacks
+    networks: [app]
+
+networks:
+  app:
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.0.1.1/24
